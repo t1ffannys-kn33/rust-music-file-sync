@@ -14,16 +14,24 @@ fn main() {
     io::stdin().read_line(&mut buffer).expect("Failed to read line");
     println!("you typed {}",buffer);
     match &buffer as &str {
-        "yes" | "y" => issender=true,
-        "n" => issender=false,
-        _ => println!("not y or n"),
+        "yes\n" | "y\n" => issender=true,
+        "n\n" => issender=false,
+        _ => panic!("not y or n"),
     }
 
     if issender == true { // we are the syncer
-        println!("{:?}", issender);
-    } else { // we are the syncee
-        println!("{:?}", issender);
+        let mut absolutedir = String::new();
+        println!("what is the **absolute** directory of the folder");
+        io::stdin().read_line(&mut buffer).expect("Failed to read line");
 
+        for elem in glob(&absolutedir).expect("no luck w the dir, did you make a typo?") {
+            match elem {
+                Ok(path) => println!("{:?}", path.display()),
+                Err(e) => println!("{:?}", e),
+            }
+        }
+    } else { // we are the syncee
+        println!("you picked that this computer is not the sender");
     }
 }
 /*   broken code       
@@ -42,4 +50,3 @@ let mut hashes:Vec<Pathandhash> = Vec::new();
             println!()
             */
 
-fn hashfileadd(){} 
