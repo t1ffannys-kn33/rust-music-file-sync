@@ -1,12 +1,25 @@
 use std::{env, fs, io};
 use glob::glob;
+use std::path::Path;
+
 
 pub struct Pathandhash { 
     hash:String,
     path:String
 }
 
+fn Hashandaddtovec(pathtofile:String) {
+    &hashes.push(Pathandhash {
+
+        path:pathtofile,
+    })
+}
+
 fn main() {
+
+    let mut hashes:Vec<Pathandhash> = Vec::new(); 
+
+
     println!("Rust music syncer!");
     println!("is this the computer sending the files?");
     let mut issender:bool = false;
@@ -20,22 +33,26 @@ fn main() {
     }
 
     if issender == true { // we are the syncer
-        let mut absolutedir = String::new();
-        println!("what is the **absolute** directory of the folder");
-        io::stdin().read_line(&mut buffer).expect("Failed to read line");
-
-        for elem in glob(&absolutedir).expect("no luck w the dir, did you make a typo?") {
-            match elem {
-                Ok(path) => println!("{:?}", path.display()),
+        for entry in glob("/Users/tiffany/Music/Soulseek Downloads/**").expect("Failed to read glob pattern") {
+            match entry {
+                Ok(path) => Hashandaddtovec(path.display().to_string()),
                 Err(e) => println!("{:?}", e),
             }
         }
     } else { // we are the syncee
         println!("you picked that this computer is not the sender");
     }
+
 }
+
+
+
+
+
 /*   broken code       
 let mut hashes:Vec<Pathandhash> = Vec::new();
+
+
         let mut wheretoread = String::new;
         let mut stdin = io::stdin(); // We get `Stdin` here.
 
